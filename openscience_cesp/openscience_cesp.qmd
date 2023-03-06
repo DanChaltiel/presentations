@@ -1,0 +1,497 @@
+---
+format:
+  revealjs:
+    css: style.css 
+    theme: simple
+    incremental: true
+    slide-number: true
+    preview-links: auto
+    footer: "Le code source de cette présentation est disponible [sur GitHub](https://github.com/DanChaltiel/presentations/openscience_cesp/){target='_blank'}."
+execute:
+  echo: true
+keywords: ["open-science", "github", "r", "r-packages"]
+mouse-wheel: true
+editor: 
+  markdown: 
+    wrap: 72
+---
+
+# Open-Science, <br> une expérience sur GitHub {style="text-align: center;"}
+
+<!-- Don't render this file manually. Run `renderer.R` script instead. -->
+<!-- Need to install extension from https://github.com/quarto-ext/fontawesome -->
+<!-- Run `quarto install extension quarto-ext/fontawesome` in terminal -->
+
+<br> Dan Chaltiel
+
+Team Oncostat, Gustave Roussy
+
+![](media/logo_gustaveroussy.png){fig-align="left" width="189"}
+![](media/logo_openscience.png){fig-align="center" width="120"}
+![](media/logo_github.png){fig-align="center" width="120"}
+![](media/logo_cesp.png){fig-align="right" width="120"}
+
+# Open science
+
+Petite introduction
+
+## Définition INSERM 2019 ([lien](https://www.inserm.fr/nos-recherches/science-ouverte/))
+
+> La science ouverte, ou *open science*, est un mouvement dont
+> l'objectif est de rendre universellement accessibles les résultats de
+> la recherche scientifique (publications et données de recherche,
+> notamment).
+
+::: highlight
+But: publier avec l'article les données et le code d'analyse, de 
+manière à ce que n'importe qui puisse **reproduire nos résultats**.
+:::
+
+## Fakemed
+
+On entend de plus en plus parler de fraudes et publications falsifiées.
+
+-   Beaucoup de lanceurs d'alerte, quelques
+    [retraits](https://retractionwatch.com/2022/12/13/plos-flags-nearly-50-papers-by-controversial-french-covid-researcher-for-ethics-concerns/)
+    d'articles, très peu de mesures
+    [disciplinaires](https://www.wikiwand.com/en/List_of_scientific_misconduct_incidents#/Plant_biology)...
+
+-   "Paper mills", les industries des fausses publications (plus d'infos
+    dans [nature](https://www.nature.com/articles/d41586-021-00733-5),
+    [mdpi](https://blog.mdpi.com/2022/05/09/paper-mills),
+    [lqdm](https://www.lequotidiendumedecin.fr/actus-medicales/recherche-science/les-paper-mills-ou-lindustrie-des-fausses-publications),
+    ...)
+    
+- Pas forcément de la malhonnêteté : le publish or perish pousse à publier vite. Prendre le temps de tout vérifier n'est pas valorisé partout.
+
+
+## Fakemed
+
+Quand partager les données et le code d'analyse avec un article sera la
+norme,
+
+<br>
+
+- il sera plus compliqué de falsifier les études.
+
+- on se rendra compte plus vite d'éventuelles erreurs et biais dans les études.
+
+
+::: notes
+Le code n'étant pas reviewé, c'est effrayant de le publier. On reste humains et on fait forcément des erreurs de code.
+
+Au final, la qualité globale de la science sera forcément augmentée!
+:::
+
+
+## Video
+
+**BONUS:** même sans erreurs, il y a les problèmes inhérents à la méthode scientifique : risques alpha/beta, biais
+multiples...
+
+:::{style="text-align: center"}
+{{< video https://www.youtube.com/embed/42QuXLucH3Q width="70%" height=400 align="center">}}
+:::
+
+::: notes
+  Super vidéo de 12 minutes (3m07)
+  Allez voir toutes ses autres vidéos :-)
+:::
+
+
+## Elisabeth Bik
+
+Suivez Elisabeth Bik sur tweeter!
+[\@MicrobiomDigest](https://twitter.com/MicrobiomDigest)
+
+::: columns
+::: {.column width="49%"}
+![](media/twitter_bik1.png){style="max-height:450px;"}
+:::
+
+::: {.column width="49%"}
+![](media/twitter_bik2.png){style="max-height:450px;"}
+:::
+:::
+
+# Git et GitHub
+
+Enfin, on y vient!
+
+## Définitions
+
+> **GitHub** est une plateforme d'hébergement de code pour la gestion de
+> versions et la collaboration. Cette plateforme vous permet de
+> travailler avec d'autres personnes sur des projets depuis n'importe
+> où.
+> ([source](https://docs.github.com/fr/get-started/quickstart/hello-world))
+
+<br>
+
+. . .
+
+En pratique, GitHub est un *Hub* de dépots *Git*. <br> <br>
+
+. . .
+
+Commençons déjà par expliquer ce qu'est Git.
+
+::: notes
+  Et ce n'est pas forcément facile d'expliquer Git...
+:::
+
+
+## Git
+
+Git est un système de contrôle de version
+([*VCS*](https://www.wikiwand.com/en/Version_control_system)).
+
+. . .
+
+Imaginons un projet contenant des données, du code, des figures, des
+rapports...
+
+-   Git va permettre de faire des "photographies" du projet à un instant
+    `t` , appelé *commits*.
+
+-   Chaque *commit* est ajouté à une base de données interne.
+
+-   On peut synchroniser cette base de données à un serveur
+    centralisé (*e.g.* GitHub).
+
+
+::: notes
+  Plus d'infos sur le modèle sur http://shafiul.github.io/gitbook/1_the_git_object_model.html
+  
+  En pratique la puissance de git va bien au delà de ce que je vais raconter ici mais ça nous suffira pour commencer.
+:::
+
+
+## Commits
+
+Chaque commit contient l'information de tous les fichiers changés
+(`diff`), l'auteur, et une petite description des changements.
+
+. . .
+
+![](media/git-commit-graph.gif){fig-align="center"}
+
+# Git en pratique
+
+Parce que j'imagine que c'est encore un peu flou...
+
+## Mise en place
+
+On va avoir besoin de plusieures choses :
+
+- Un dossier "racine" local qui contient **la totalité** du projet
+- Une interface d'édition : Notepad++, PyCharm, RStudio...
+- Avoir installé Git ([lien ici](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git))
+- Une interface graphique pour Git
+
+::: notes
+  pour Jupyter ça dépend, il faut bien que les fichiers soient en local. Pareil pour RStudio server.
+:::
+
+## Exemple
+
+Prenons l'exemple de mon package [`crosstable`](https://github.com/DanChaltiel/crosstable) pour R.
+
+![](media/rstudio_crosstable.png){fig-align="center"}
+
+::: notes
+Instant publicité: package que je développe depuis 2020, une sorte de `table_1` ou `gt_summary`, optimisé dans l'interface avec Word pour faire des rapports automatisés.
+Si vous avez l'occasion de l'utiliser et que vous avez des idées d'amélioration, contactez-moi :-)
+
+Bref.
+
+Ici, interace RStudio standard (enfin, en dark-mode), on voit l'arborescence en bas-droite. 
+Mon dossier racine `F:/GITHUB/crosstable` contient tout le projet
+
+La présentation tient évidemment aussi pour un projet non-package et même non-R : étude épidémio, étude stats de simulation, pipelines...
+:::
+
+
+## Git client
+
+Les puristes utilisent Git en ligne de commande, mais nous on va
+utiliser un logiciel avec une GUI.
+
+. . .
+
+::: columns
+::: {.column width="31%"}
+Ici, j'utilise GitHub Desktop :
+:::
+
+::: {.column width="69%"}
+![](media/github_desktop.png){fig-align="center" width="655"}
+:::
+:::
+
+::: notes
+RStudio propose une GUI pour Git mais je la trouve très peu ergonomique.
+Il y a aussi GitKraken, TortoiseGit, SourceTree, MaGit...
+J'ai testé plusieurs softwares et pour ce que j'en fais GD est le meilleur, surtout quand le remote est GitHub.
+:::
+
+## Cas pratique : setup
+
+Petit cas pratique d'utilisation :
+
+- J'en suis au 855ème commit sur mon projet `crosstable`.
+
+- J'ai fait quelques modifications sur RStudio
+
+- Ces modifications concernent deux points : le fichier `NAMESPACE` et les tests
+
+- On va aller sur GitHub Desktop pour faire un commit.
+
+
+## Cas pratique : Commit & Push
+
+. . .
+
+![](media/github_desktop_modif.png){height="560px" fig-align="center"}
+
+::: notes
+1)  6 fichiers ont été modifiés depuis le dernier commit. On choisit
+    lesquels inclure dans le prochain commit.
+2)  Pour chaque fichier, on peut voir la "diff", càd les
+    ajouts/suppressions et sélectionner les lignes pour le commit
+3)  On commit les changements sélectionnés, avec un petit message.
+4)  on push les commits locaux sur le serveur origine (ici Github mais
+    on peut faire mieux)
+:::
+
+## Cas pratique : Historique
+
+![](media/desktop_history.png){fig-align="center"}
+
+::: notes
+J'ai 4 commits non synchronisés.
+Dans mon plus récent, j'ai changé 3 fichiers, avec +3 lignes et -5 lignes.
+On voit que dans NAMESPACE j'ai juste supprimé 2 lignes.
+
+Si j'avais vraiment été au bout de mon exemple, on verrait un 5ème commit non synchronisé.
+:::
+
+## Remote (GitHub web)
+
+Dépot centralisé de mes commits (si pushed), ici hébergé sur
+[https://github.com](https://github.com/DanChaltiel/crosstable):
+
+![](media/github_crosstable.png){fig-align="center"}
+
+::: notes
+N'importe qui peut cliquer sur `<> Code` > `Download zip` et télécharger le projet entier.
+Avec GitHub Desktop c'est encore plus simple.
+Attention, tout l'historique est visible par tout le monde, n'écrivez pas trop de bêtises dans vos commits :-)
+https://www.scitepress.org/Papers/2022/110397/110397.pdf
+:::
+
+
+## Conclusion sur Git
+
+-   Git permet de gérer les versions
+
+-   Evite d'avoir 6 copies de `projet_v3_final_pour_de_vrai_cette_fois`
+
+-   Utile pour les petits et les grands projets
+
+. . . 
+
+<br>
+
+Grâce à GitHub, on va pouvoir publier nos codes et utiliser Git dans des projets collaboratifs.
+
+::: notes
+  Encore une fois, ça pourrait être un autre service que GitHub
+  Par exemple GitLab, ou même un dossier GIT sur une dropbox!
+:::
+
+
+# Travail collaboratif
+
+Github est surtout un formidable outil de collaboration, particulièrement adapté à l'encadrement.
+
+## Espace collaboratif
+
+En plus du versionning, GitHub c'est :
+
+-   Un outil de partage de code
+
+-   Mais c'est surtout un espace collaboratif très puissant :
+     *   Entre programmeurs
+     *   Avec les utilisateurs
+
+-   Pas forcément open-source (on peut garder un repo *private*)
+
+::: notes
+Git est un très mauvais outil de management, le nombre de commits ou de changes est un mauvais marqueur d'efficacité!
+
+Si c'est un projet de recherche pure, les utilisateurs peuvent être les lecteurs de l'article
+:::
+
+## Collab {background-image="media/collab.png" background-repeat="no-repeat" background-size="90%"}
+
+::: notes
+1) On clone le projet (repository). 
+   ~= on DL le .zip
+2) On travaille sur sa working copy, on fait des commits
+3) On push ces commits vers le serveur
+4) Quelqu'un d'autre travaille sur son propre clone
+5) On pull ses commits sur le notre
+n) On recommence!
+
+**Problème : et si plusieurs personnes font un commit et pushent en même temps ?**
+:::
+
+## Conflits
+
+:::: {.columns}
+::: {.column width="32%"}
+Si deux personnes travaillent en parallèle à partir du même commit, il peut y avoir don peut résoudre les conflits très facilement.
+:::
+::: {.column .fragment width="68%"}
+
+![](media/git_conflicts.png){fig-align="center"}
+:::
+::::
+
+
+::: notes
+Pas trouvé de capture d'écran sur GitHub Desktop mais c'est pareil.
+Facile techniquement, mais quand même tedious
+:::
+
+## Readme
+
+![](media/github_readme.png){fig-align="center"}
+
+::: notes
+La page d'accueil d'un dépot Github a souvent un fichier README.md.
+C'est un fichier markdown qui présente le projet.
+En général ça couvre l'installation et l'utilisation basique.
+On peut en mettre même dans des sous-dossiers.
+:::
+
+## Issues
+
+![](media/github_issues.png){fig-align="center"}
+
+::: notes
+Système de tickets pour qu'un utilisateur externe signale un bug ou une amélioration.
+
+Attention, pas de modération !
+:::
+
+
+## Pull-requests
+
+![](media/github_pr.png){fig-align="center"}
+
+::: notes
+Le projet est publique, donc tout le monde peut voir le code
+N'importe qui peut alors proposer une modification du code : ajout de feature, correction de bug, de typo...
+Le propriétaire peut accepter les modifs en un clic, et il y a une interface de review
+:::
+
+## Actions
+
+![](media/github_actions.png){fig-align="center"}
+
+
+::: notes
+Ma fonction préférée !
+Utilisation des serveurs de GitHub pour les tâches répétitives.
+
+J'ai 5 actions sur mon repo :
+un qui lance R-CMD-Check pour vérifier que mon package est valide pour le CRAN
+un qui fabrique la documentation
+un qui déploie la documentation sur la github page (ça fait doublon non?)
+un qui fait le test-coverage
+et un qui bump le numéro de version
+https://docs.github.com/en/actions/learn-github-actions/usage-limits-billing-and-administration 
+:::
+
+## Actions (simulations)
+
+Projet : faire ses simulations sur GitHub
+
+ - 6h par job, 35 jours par workflow, 20 jobs en parallèle
+ - queue de 500 workflows
+ - job matrix de max 256 jobs
+ 
+ - Encore plus avec un compte pro ([lien](https://docs.github.com/en/actions/learn-github-actions/usage-limits-billing-and-administration))
+
+ 
+
+::: notes
+Je pense tester bientôt.
+Je crois que c'est en accord avec les Terms de GitHub: https://docs.github.com/en/site-policy/github-terms/github-terms-for-additional-products-and-features#actions
+:::
+
+## Documentation website
+
+[Exemple: <https://danchaltiel.github.io/crosstable/>]{style="font-size: 17px;"}
+
+```{=html}
+<iframe width="100%" height="500" src="https://danchaltiel.github.io/crosstable/" title="Crosstable Documentation"></iframe>
+```
+
+
+::: notes
+Tout ça est automatiquement généré par R à partir du Readme, des vignettes, et des manuals (package `pkgdown`). 
+Le site est hébergé par "github pages" sur https://danchaltiel.github.io/crosstable/.
+:::
+
+## Questions ouvertes
+   
+- Confidentialité des bases de données, RGPD ?
+
+- Modération des `issues`
+
+- Utiliser GitHub plutôt que GitLab, FramaGit, ...
+   - Un jour une solution indépendante ?
+   
+::: notes
+Issues -> risque de devenir une plateforme de review sauvage
+
+GitHub appartient à Microsoft --> Copilot
+
+:::
+
+## [Software Heritage](https://www.softwareheritage.org/)
+
+> [We collect and preserve software in source code form, because software embodies our technical and scientific knowledge and humanity cannot afford the risk of losing it.]{style="font-size: 39px;"}
+
+ - Collecte massive sur GitHub, permet l'archivage pérenne des codes sources. 
+ 
+ - Non exhaustif : [s'inscrire ici](https://archive.softwareheritage.org/save/) pour s'assurer que son code est sauvegardé.
+
+::: notes
+Sauvegardé même si GitHub disparait.
+https://archive.softwareheritage.org/browse/origin/directory/?origin_url=https://github.com/DanChaltiel/crosstable
+:::
+
+# Merci de votre attention
+
+N'hésitez pas si vous avez des questions.
+
+::: notes
+N'hésitez pas à tester les programmes
+:::
+
+## Tags/Releases
+
+![](media/github_tags.png){fig-align="center"}
+
+## Blame
+
+
+![](media/github_blame.png){fig-align="center"}
+
+::: notes
+Très utile pour trouver des bugs!
+:::

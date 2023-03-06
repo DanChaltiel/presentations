@@ -1,0 +1,29 @@
+.footer > p {
+  font-size: 14px;
+}
+
+.reveal a {
+  //color: #9753B8;
+}
+
+.reveal h2 {
+  margin-bottom: 40px;
+}
+
+.reveal section div {
+  margin-bottom: 30px;
+}
+.reveal section blockquote {
+  margin-bottom: 30px;
+}
+.reveal iframe {
+  margin-bottom: 30px;
+}
+
+
+.highlight {
+  background-color: #F3CCFF;
+  padding: 20px;
+  border-radius: 25px;
+  text-align: center;
+}
