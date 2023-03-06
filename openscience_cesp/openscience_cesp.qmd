@@ -6,7 +6,7 @@ format:
     incremental: true
     slide-number: true
     preview-links: auto
-    footer: "Le code source de cette présentation est disponible [sur GitHub](https://github.com/DanChaltiel/presentations/openscience_cesp/){target='_blank'}."
+    footer: "Le code source de cette présentation est disponible [sur GitHub](https://github.com/DanChaltiel/presentations/tree/main/openscience_cesp/){target='_blank'}."
 execute:
   echo: true
 keywords: ["open-science", "github", "r", "r-packages"]
@@ -351,7 +351,7 @@ n) On recommence!
 
 :::: {.columns}
 ::: {.column width="32%"}
-Si deux personnes travaillent en parallèle à partir du même commit, il peut y avoir don peut résoudre les conflits très facilement.
+Si deux personnes travaillent en parallèle à partir du même commit, on peut résoudre les conflits très facilement.
 :::
 ::: {.column .fragment width="68%"}
 
