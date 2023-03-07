@@ -5,7 +5,7 @@ This repository will hold some presentation source code and use GitHub Pages to 
 
 ## List
 
--   A (very) basic presentation of Git and GitHub and how it could help Open Science [link](openscience_cesp) (in French)
+-   A (very) basic presentation of Git and GitHub and how it could help Open Science: [code](openscience_cesp) and [slides](https://danchaltiel.github.io/presentations/openscience_cesp) (in French)
 
 ## License
 
