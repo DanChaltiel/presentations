@@ -9,7 +9,7 @@ Elle a été réalisée en utilisant Quarto (format reveal.js) depuis RStudio, i
 
 J'y présente brièvement Git et son implémentation sur GitHub et ce que ça peut apporter à la science ouverte.
 
-## License
+## License [<img src="https://mirrors.creativecommons.org/presskit/buttons/88x31/png/by.png" width="88" height="31">](https://creativecommons.org/licenses/by/4.0/deed.fr)
 
 Cette présentation est sous licence  [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/deed.fr). Vous pouvez la partager, la remixer et l'utiliser pour tout usage, à condition d'attribuer l'auteur d'origine.
 
